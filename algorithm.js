@@ -172,50 +172,38 @@ class BinarySearchTree {
   }
 
   insert(value) {
-    function traverse(node) {      
-      if (value < node.value) {
-        if (node.left === null) {
-          node.left = new Node(value);
-          return;
+    const newNode = new Node(value);
+
+    if (this.root === null) {
+      this.root = newNode;
+      return this;
+    }
+
+    let currentNode = this.root;
+    while (currentNode !== null) {
+      if (value < currentNode.value) {
+        if (currentNode.left === null) {
+          currentNode.left = newNode;
+          return this;
+        } else {
+          currentNode = currentNode.left;
         }
-        traverse(node.left);
+      } else if (value > currentNode.value) {
+        if (currentNode.right === null) {
+          currentNode.right = newNode;
+          return this;
+        } else {
+          currentNode = currentNode.right;
+        }
       } else {
-        if (node.right === null) {
-          node.right = new Node(value);
-          return;
-        }
-        traverse(node.right);
+        return undefined;
       }
-    }
-    traverse(this.root);
-  }
-
-  find(value) {
-    function traverse(node) {
-      if(value < node.)
-    }
-    traverse(this.root);
-  }
-
-  display() {
-    // find first left leaf node
-    let node = this.root;
-    while(node.left) {
-      node = node.left;
-    }
-    function print(node) {
-      console.log(node.value);
-      node.right && console.log(node.right.value)
-      print(node.)
     }
   }
 }
 
 const tree = new BinarySearchTree();
-tree.root = new Node(10);
-tree.root.left = new Node(7);
-tree.root.right = new Node(15);
-tree.root.left.right = new Node(9);
-
-tree.insert(6);
-console.log(tree.root.left.left);
+console.log(tree.insert(10));
+console.log(tree.insert(3));
+console.log(tree.insert(8));
+console.log(tree.insert(12));
