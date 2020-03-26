@@ -200,10 +200,163 @@ class BinarySearchTree {
       }
     }
   }
+
+  find(value) {
+    if (this.root === null) {
+      return false;
+    }
+
+    let currentNode = this.root;
+    while (currentNode !== null) {
+      if (value < currentNode.value) {
+        if (currentNode.left === null) {
+          return false;
+        } else {
+          currentNode = currentNode.left;
+        }
+      } else if (value > currentNode.value) {
+        if (currentNode.right === null) {
+          return false;
+        } else {
+          currentNode = currentNode.right;
+        }
+      } else {
+        return true;
+      }
+    }
+  }
+
+  BFS() {
+    const data = [];
+    const queue = [];
+    queue.push(this.root);
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+      data.push(currentNode.value);
+      if (currentNode.left !== null) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right !== null) {
+        queue.push(currentNode.right);
+      }
+    }
+    return data;
+  }
+
+  DFSPreOrderRecursive() {
+    const data = [];
+
+    function traversal(node) {
+      if (!node) return;
+      data.push(node.value);
+      if (node.left !== null) {
+        traversal(node.left);
+      }
+      if (node.right !== null) {
+        traversal(node.right);
+      }
+    }
+
+    traversal(this.root);
+    return data;
+  }
+
+  DFSPreOrderIterative() {
+    const data = [];
+    const stack = [];
+    stack.push({ ...this.root });
+    data.push(this.root.value);
+    let currentNode = stack[stack.length - 1];
+    while (stack.length > 0) {
+      if (currentNode.left !== null) {
+        stack.push({ ...currentNode.left });
+        data.push(currentNode.left.value);
+        currentNode.left = null;
+        currentNode = stack[stack.length - 1];
+      } else if (currentNode.right !== null) {
+        stack.push({ ...currentNode.right });
+        data.push(currentNode.right.value);
+        currentNode.right = null;
+        currentNode = stack[stack.length - 1];
+      } else {
+        stack.pop();
+        currentNode = stack[stack.length - 1];
+      }
+    }
+    return data;
+  }
+
+  DFSPostOrderRecursive() {
+    const data = [];
+
+    function traversal(node) {
+      if (!node) return;
+      if (node.left !== null) {
+        traversal(node.left);
+      }
+      if (node.right !== null) {
+        traversal(node.right);
+      }
+      data.push(node.value);
+    }
+
+    traversal(this.root);
+    return data;
+  }
+
+  DFSPostOrderIterative() {
+    const data = [];
+    const stack = [];
+    stack.push({ ...this.root });
+    let currentNode = stack[stack.length - 1];
+    while (stack.length > 0) {
+      if (currentNode.left !== null) {
+        stack.push({ ...currentNode.left });
+        currentNode.left = null;
+        currentNode = stack[stack.length - 1];
+      } else if (currentNode.right !== null) {
+        stack.push({ ...currentNode.right });
+        currentNode.right = null;
+        currentNode = stack[stack.length - 1];
+      } else {
+        data.push(stack.pop().value);
+        currentNode = stack[stack.length - 1];
+      }
+    }
+    return data;
+  }
+
+  DFSInOrderRecursive() {
+    const data = [];
+
+    function traversal(node) {
+      if (!node) return;
+      if (node.left !== null) {
+        traversal(node.left);
+      }
+      data.push(node.value);
+      if (node.right !== null) {
+        traversal(node.right);
+      }
+    }
+
+    traversal(this.root);
+    return data;
+  }
 }
 
 const tree = new BinarySearchTree();
-console.log(tree.insert(10));
-console.log(tree.insert(3));
-console.log(tree.insert(8));
-console.log(tree.insert(12));
+tree.insert(10);
+tree.insert(6);
+tree.insert(15);
+tree.insert(3);
+tree.insert(8);
+tree.insert(20);
+tree.insert(4);
+
+console.log(tree.BFS());
+console.log(tree.DFSPreOrderRecursive());
+console.log(tree.DFSPreOrderIterative());
+console.log(tree.DFSPostOrderRecursive());
+console.log(tree.DFSPostOrderIterative());
+console.log(tree.DFSInOrderRecursive());
