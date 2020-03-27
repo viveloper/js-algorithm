@@ -1,7 +1,64 @@
 // merge sort
-function mergeSort(arr) {}
+function merge(arr1, arr2) {
+  let i = 0;
+  let j = 0;
+  const result = [];
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      result.push(arr1[i]);
+      i++;
+    } else {
+      result.push(arr2[j]);
+      j++;
+    }
+  }
+  while (i < arr1.length) {
+    result.push(arr1[i]);
+    i++;
+  }
+  while (j < arr2.length) {
+    result.push(arr2[j]);
+    j++;
+  }
+  return result;
+}
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+
+// console.log(mergeSort([3, 7, 5, 4]));
+
 // quick sort
-function quickSort(arr) {}
+function setPivot(arr, start, end) {
+  const pivot = arr[start];
+  let swapIdx = start;
+  for (let i = start + 1; i <= end; i++) {
+    if (arr[i] < pivot) {
+      swapIdx++;
+      // swap
+      const temp = arr[i];
+      arr[i] = arr[swapIdx];
+      arr[swapIdx] = temp;
+    }
+  }
+  arr[start] = arr[swapIdx];
+  arr[swapIdx] = pivot;
+
+  return swapIdx;
+}
+function quickSort(arr, start = 0, end = arr.length - 1) {
+  if (start >= end) return arr;
+  const pivotIdx = setPivot(arr, start, end);
+  quickSort(arr, start, pivotIdx - 1);
+  quickSort(arr, pivotIdx + 1, end);
+
+  return arr;
+}
+console.log(quickSort([5, 1, 4, 7, 8, 3, 9]));
 
 // tree
 class Node {
@@ -138,7 +195,7 @@ BST.insert(4);
 //        3         8                20
 //           4
 
-console.log(BST.BFS());
-console.log(BST.DFSPreOrder());
-console.log(BST.DFSPostOrder());
-console.log(BST.DFSInOrder());
+// console.log(BST.BFS());
+// console.log(BST.DFSPreOrder());
+// console.log(BST.DFSPostOrder());
+// console.log(BST.DFSInOrder());
