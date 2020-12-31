@@ -49,6 +49,57 @@ class BST {
     }
     return undefined;
   }
+  BFS() {
+    const result = [];
+    const queue = [];
+    queue.push(this.root);
+    while (queue.length > 0) {
+      const node = queue.shift();
+      result.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    return result;
+  }
+  DFS_preOrder() {
+    const result = [];
+    traverse(this.root);
+    return result;
+
+    function traverse(node) {
+      if (node === null) return;
+
+      result.push(node.val);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+  }
+  DFS_inOrder() {
+    const result = [];
+    traverse(this.root);
+    return result;
+
+    function traverse(node) {
+      if (node === null) return;
+
+      if (node.left) traverse(node.left);
+      result.push(node.val);
+      if (node.right) traverse(node.right);
+    }
+  }
+  DFS_postOrder() {
+    const result = [];
+    traverse(this.root);
+    return result;
+
+    function traverse(node) {
+      if (node === null) return;
+
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      result.push(node.val);
+    }
+  }
 }
 
 const bst = new BST();
@@ -56,4 +107,15 @@ console.log(bst.insert(5));
 console.log(bst.insert(9));
 console.log(bst.insert(3));
 console.log(bst.insert(8));
+console.log(bst.insert(4));
 console.log(bst.find(9));
+console.log(bst.BFS());
+console.log(bst.DFS_preOrder());
+console.log(bst.DFS_inOrder());
+console.log(bst.DFS_postOrder());
+
+//        5
+//      /   \
+//     3     9
+//      \   /
+//      4  8
